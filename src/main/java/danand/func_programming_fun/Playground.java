@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -125,6 +127,24 @@ public class Playground {
 
 	public void Lambda10() {
 		int result = calculator((a, b) -> a + b, 5, 2);
+		int result2 = calculator2((a, b) -> a + b, 5, 2);
+	}
+
+	public void Lambda11() {
+		List<double[]> coords = Arrays.asList(
+				new double[]{47.2160, -95.2348},
+				new double[]{29.1566, -89.2495},
+				new double[]{35.1556, -90.0659}
+		);
+
+		coords.forEach(s -> System.out.println(Arrays.toString(s)));
+
+		BiConsumer<Double, Double> p1 = (lat, lng) -> System.out.printf("[lat:%.3f lon:%.3f]%n", lat, lng);
+
+		double[] firstPoint = coords.get(0);
+		processPoint(firstPoint[0], firstPoint[1], p1);
+
+		coords.forEach(s -> processPoint(s[0], s[1], p1));
 	}
 
 	public static <T> T calculator(Operation<T> function, T value1, T value2) {
@@ -134,4 +154,36 @@ public class Playground {
 		return result;
 	}
 
+	public static <T> T calculator2(BinaryOperator<T> function, T value1, T value2) {
+
+		T result = function.apply(value1, value2);
+		System.out.println("This is my result 2: " + result);
+		return result;
+	}
+
+	public static <T> void processPoint(T t1, T t2, BiConsumer<T, T> consumer) {
+		consumer.accept(t1, t2);
+	}
+
+	public void Lambda12() {
+		String sentence = "This is a sentence";
+
+		Consumer<String> sentenceSplitter = s -> {
+
+			String[] parts = s.split(" ");
+			for(String part : parts) {
+				System.out.println(part);
+			}
+		};
+
+		sentenceSplitter.accept(sentence);
+
+		Consumer<String> printWordsForEach = s -> {
+			String[] parts = s.split(" ");
+			Arrays.asList(parts).forEach(s2 -> System.out.println(s2));
+		};
+
+		printWordsForEach.accept(sentence);
+
+	}
 }

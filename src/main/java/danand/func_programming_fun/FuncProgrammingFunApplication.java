@@ -19,6 +19,8 @@ public class FuncProgrammingFunApplication {
 		pg.Lambda8();
 		pg.Lambda9();
 		pg.Lambda10();
+		pg.Lambda11();
+		pg.Lambda12();
 
 	}
 
